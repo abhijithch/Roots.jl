@@ -90,8 +90,8 @@ function newtonmeth(f, fp,  x0::Number; kwargs...)
 
     x   = float(copy(x0))
     tol = eps( eltype(real(x)) )
-    D = [k => v for (k,v) in kwargs]
-    xtol    = get(D, :xtol   , 100*tol)
+    D = Dict(kwargs)
+	xtol    = get(D, :xtol   , 100*tol)
     xtolrel = get(D, :xtolrel, tol    )
     ftol    = get(D, :ftol   , 100*tol)
 
@@ -156,8 +156,10 @@ function halleymeth(f, fp, fpp, x0::Real, args...;
                  kwargs...)
 
     x = float(x0)
-    D = [k => v for (k,v) in kwargs]    
-    xtol    = get(D, :xtol, 100*eps(eltype(x)))
+    #D = [k => v for (k,v) in kwargs]    
+    #D = Dict([k => v for (k,v) in kwargs])
+	D = Dict(kwargs)
+	xtol    = get(D, :xtol, 100*eps(eltype(x)))
     xtolrel = get(D, :xtolrel, eps(eltype(x)))
     ftol    = get(D, :ftol, 100*eps(eltype(x)))
     

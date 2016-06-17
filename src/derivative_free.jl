@@ -26,7 +26,7 @@ type ZeroFunction1{T<:AbstractFloat} <: ZeroFunction
     β::Float64
 end
     
-function Base.writemime(io::IO, ::MIME"text/plain", F::ZeroFunction)
+function Base.show(io::IO, ::MIME"text/plain", F::ZeroFunction)
     if F.state == :converged
         print(io, "xn=$(F.x[end]), iterations=$(F.iterations), fncalls=$(F.fncalls)")
     else
@@ -135,9 +135,8 @@ end
 ## Basic structure of the functions (orders 16, 8, 5, 2, 1)
 function _function_template_(updatefn, f, x0; kwargs...)
     x = map(float,[x0;])
-    
-    D = [k => v for (k,v) in kwargs]
-    xtol    = get(D, :xtol,     100*eps(eltype(x)))
+	D = Dict(kwargs)
+	xtol    = get(D, :xtol,     100*eps(eltype(x)))
     xtolrel = get(D, :xtolrel,  eps(eltype(x)))
     ftol    = get(D, :ftol,     100*eps(eltype(x)))
     maxeval = get(D, :maxeval,  100)
