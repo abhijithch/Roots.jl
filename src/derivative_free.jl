@@ -26,7 +26,7 @@ type ZeroFunction1{T<:AbstractFloat} <: ZeroFunction
     β::Float64
 end
     
-function Base.show(io::IO, ::MIME"text/plain", F::ZeroFunction)
+function Base.writemime(io::IO, ::MIME"text/plain", F::ZeroFunction)
     if F.state == :converged
         print(io, "xn=$(F.x[end]), iterations=$(F.iterations), fncalls=$(F.fncalls)")
     else
